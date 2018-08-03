@@ -1,9 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
 
 import './index.css';
 import CheeseList from './components/CheeseList';
 import registerServiceWorker from './registerServiceWorker';
+import { cheeseReducer } from './reducers/cheese';
 
-ReactDOM.render(<CheeseList cheeses={['Bath Blue', 'Barkham Blue', 'Buxton Blue']}/>, document.getElementById('root'));
+const store = createStore(cheeseReducer, applyMiddleware(thunk));
+store.getState();
+
+ReactDOM.render(
+  <Provider store={store}>
+    <CheeseList />
+  </Provider>,
+  document.getElementById('root'));
 registerServiceWorker();
